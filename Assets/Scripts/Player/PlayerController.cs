@@ -6,10 +6,16 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float _speed = 6f;
     [SerializeField] PlayerGun _playerGun;
+    [SerializeField] Vector3 _initialPosition;
 
     void Start() 
     {
         _playerGun = GetComponentInChildren<PlayerGun>();    
+    }
+
+    public void StartGame()
+    {
+        transform.position = _initialPosition;
     }
 
     void Update()

@@ -12,6 +12,9 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager _sharedInstance;
 
+    float _levelTime = 0;
+    bool _gameOver = false;
+
     private void Awake() 
     {
         if (_sharedInstance != null && _sharedInstance != this) 
@@ -24,23 +27,32 @@ public class LevelManager : MonoBehaviour
         } 
     }
     // Start is called before the first frame update
-    void Start()
+    public void StartGame()
     {
         while(_currentPigeons < _maxEnemysOnLevel)
         {
             AddEnemy();
         }
+
+        _levelTime = 0;
+        _gameOver = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(!_gameOver) _levelTime += Time.deltaTime;
     }
 
-    void WinGame()
+    public void WinGame()
     {
         Debug.Log("Ganaste!");
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("Fin del juego");
+        Debug.Log("Tiempo: "+ _levelTime.ToString());
     }
 
     void AddEnemy()
