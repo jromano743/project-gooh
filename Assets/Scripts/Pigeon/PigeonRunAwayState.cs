@@ -40,7 +40,10 @@ public class PigeonRunAwayState : PigeonBaseState
 
     public override void OnCollisionEnter(PigeonStateManager pigeon, Collision collision)
     {
-        
+        if(collision.gameObject.CompareTag("Window"))
+        {
+            pigeon.Scape();
+        }    
     }
 
     public override void OnTriggerEnter(PigeonStateManager pigeon, Collider other)

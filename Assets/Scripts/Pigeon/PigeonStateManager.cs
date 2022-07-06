@@ -67,4 +67,11 @@ public class PigeonStateManager : MonoBehaviour
     {
         _windowPosition = position;
     }
+
+    public void Scape()
+    {
+        StopAllCoroutines();
+        LevelManager._sharedInstance.EnemyScape();
+        Destroy(gameObject);
+    }
 }
