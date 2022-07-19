@@ -15,7 +15,6 @@ public class PigeonBotherState : PigeonBaseState
 
     public override void EnterState(PigeonStateManager pigeon)
     {
-        Debug.Log("ESTADO BOTHER");
         pigeon.transform.rotation = Quaternion.Euler(0,pigeon.transform.rotation.y,0);
 
         _imSafe = true;

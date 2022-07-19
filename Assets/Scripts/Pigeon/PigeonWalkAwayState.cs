@@ -13,8 +13,6 @@ public class PigeonWalkAwayState : PigeonBaseState
     GameObject _gameObject;
     public override void EnterState(PigeonStateManager pigeon)
     {
-        Debug.Log("ESTADO WALK AWAY");
-
         _windowNear = false;
         _isMoving = false;
         _isWalking = false;
@@ -68,7 +66,7 @@ public class PigeonWalkAwayState : PigeonBaseState
 
     IEnumerator RunAway()
     {
-        int walkTime = Random.Range(1,3);
+        int walkTime = Random.Range(1,2);
 
 
         _isMoving = true;

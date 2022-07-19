@@ -23,6 +23,7 @@ public class PlayerGame : MonoBehaviour
             AddStress(_stressfarRatio);
         }
     }
+    
     void AddStress(float value)
     {
         if(_isEnd) return;

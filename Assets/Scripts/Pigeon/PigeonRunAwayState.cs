@@ -11,7 +11,6 @@ public class PigeonRunAwayState : PigeonBaseState
     GameObject _gameObject;
     public override void EnterState(PigeonStateManager pigeon)
     {
-        Debug.Log("ESTADO RUN AWAY");
         _isMoving = false;
         _isWalking = false;
         _imSafe = true;
