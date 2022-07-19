@@ -8,16 +8,17 @@ public class GUIManager : MonoBehaviour
 
 
     public static GUIManager _sharedInstance;
-    //Menu elements
+
+    [Header("Menu Elements")]
     [SerializeField] GameObject _menu;
-    //Play Again elements
-    [SerializeField] GameObject _playAgain;
-    //HUD Elements
     [SerializeField] GameObject _hud;
+    [SerializeField] GameObject _gameOverMenu;
+
+    [Header("HUD Elements")]
     [SerializeField] Slider _slider;
     [SerializeField] Image _bgSliderFill;
 
-    //Animation Properties
+    [Header("Animation Properties")]
     [SerializeField] float _menuSpeed;
     [SerializeField] float _hudSpeed;
 
@@ -33,22 +34,27 @@ public class GUIManager : MonoBehaviour
         }
     }
 
+    private void Start() {
+        InMenu();
+    }
+
     #region Game Controller
     private void StartGame() {
         _bgSliderFill.color = new Color(0,255,0);
         _slider.value = 0;
+        InGame();
     }
     public void InGame()
     {
         ShowMenu(false);
-        ShowPlayAgain(false);
+        ShowPlayAgainMenu(false);
         ShowHUD(true);
     }
 
     public void InMenu()
     {
         ShowHUD(false);
-        ShowPlayAgain(false);
+        ShowPlayAgainMenu(false);
         ShowMenu(true);
     }
 
@@ -56,7 +62,7 @@ public class GUIManager : MonoBehaviour
     {
         ShowHUD(false);
         ShowMenu(false);
-        ShowPlayAgain(true);
+        ShowPlayAgainMenu(true);
     }
 
 
@@ -106,9 +112,9 @@ public class GUIManager : MonoBehaviour
         GameManager._sharedInstance.ResetGame();
     }
 
-    void ShowPlayAgain(bool show)
+    void ShowPlayAgainMenu(bool show)
     {
-        _playAgain.SetActive(show);
+        _gameOverMenu.SetActive(show);
     }
 
     public void BackButton()

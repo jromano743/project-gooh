@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] int _maxEnemysOnLevel;
     [SerializeField] GameObject[] _spawnPoints;
     [SerializeField] GameObject _enemyPrefab;
+    [SerializeField] PlayerController _playerController;
 
     public static LevelManager _sharedInstance;
 
@@ -53,6 +54,7 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Fin del juego");
         Debug.Log("Tiempo: "+ _levelTime.ToString());
+        _playerController._GameOver = true;
     }
 
     void AddEnemy()

@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerGun _playerGun;
     [SerializeField] Vector3 _initialPosition;
 
+    bool _gameOver = false;
+    public bool _GameOver { get { return _gameOver; } set { _gameOver = value; } }
+
+
     void Start() 
     {
         _playerGun = GetComponentInChildren<PlayerGun>();    
@@ -16,13 +20,21 @@ public class PlayerController : MonoBehaviour
     public void StartGame()
     {
         transform.position = _initialPosition;
+        _gameOver = false;
     }
 
     void Update()
     {
-        MovePlayer();
-        HandleRotationInput();
-        HandleShootInput();
+        if(!_gameOver)
+        {
+            MovePlayer();
+            HandleRotationInput();
+            HandleShootInput();
+        }
+        else
+        {
+            Debug.Log("Play Angry animation");
+        }
     }
 
     void MovePlayer(){
