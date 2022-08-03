@@ -10,7 +10,7 @@ public class PlayerGame : MonoBehaviour
     bool _isEnd = false;
     private void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.CompareTag("Enemy"))
+        if(!_isEnd && other.gameObject.CompareTag("Enemy"))
         {
             AddStress(_stressClaseRatio);
         }
@@ -18,7 +18,7 @@ public class PlayerGame : MonoBehaviour
 
     private void OnTriggerStay(Collider other) 
     {
-        if(other.gameObject.CompareTag("Enemy"))
+        if(!_isEnd && other.gameObject.CompareTag("Enemy"))
         {
             AddStress(_stressfarRatio);
         }
@@ -33,13 +33,13 @@ public class PlayerGame : MonoBehaviour
         {
             _stress = 100;
             _isEnd = true;
-            LevelManager._sharedInstance.EndGame();
+            LevelManager._sharedInstance.EndGame(false);
         }
 
         GUIManager._sharedInstance.UpdateStressBar(_stress);
     }
 
-    void StartGame()
+    public void StartGame()
     {
         _stress = 0;
         _isEnd = false;

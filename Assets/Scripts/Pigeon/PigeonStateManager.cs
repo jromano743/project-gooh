@@ -7,9 +7,14 @@ public class PigeonStateManager : MonoBehaviour
     //Holds a reference to the active state in a SM
     PigeonBaseState _currentState;
 
+    Animator _anim;
+
     //Properties
     public float _movementSpeed;
     public float _rotationSpeed;
+
+    public AudioClip[] _pigeonSounds;
+    public AudioClip _pigeonFlap;
     Vector3 _bulletPosition;
     Vector3 _windowPosition;
 
@@ -20,6 +25,10 @@ public class PigeonStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _anim = GetComponent<Animator>();
+
+        _anim.SetBool("ImSafe", true);
+
         //Set Initial state
         _currentState = _botherState;
 
@@ -36,6 +45,7 @@ public class PigeonStateManager : MonoBehaviour
     public void SwitchState(PigeonBaseState state)
     {
         _currentState = state;
+        PlayPigeonCoo();
         state.EnterState(this);
     }
 
@@ -73,5 +83,21 @@ public class PigeonStateManager : MonoBehaviour
         StopAllCoroutines();
         LevelManager._sharedInstance.EnemyScape();
         Destroy(gameObject);
+    }
+
+    public void SwitchImSafe(bool imSafe)
+    {
+        _anim.SetBool("ImSafe", imSafe);
+    }
+
+    public void PlayPigeonCoo()
+    {
+        int index = Random.Range(0, _pigeonSounds.Length-1);
+        AudioManager._sharedInstance.PlaySound(_pigeonSounds[index]);
+    }
+
+    public void PlayPigeonRun()
+    {
+        AudioManager._sharedInstance.PlaySound(_pigeonFlap);
     }
 }

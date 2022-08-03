@@ -54,4 +54,14 @@ public class BulletPool : MonoBehaviour
         return null;
     }
 
+    public void CollectAllBullets()
+    {
+        for(int i=0; i<_bulletList.Count;i++)
+        {
+            if(_bulletList[i].activeSelf)
+            {
+                _bulletList[i].SetActive(false);
+            }
+        }
+    }
 }

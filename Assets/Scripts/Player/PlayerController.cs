@@ -7,14 +7,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _speed = 6f;
     [SerializeField] PlayerGun _playerGun;
     [SerializeField] Vector3 _initialPosition;
-
+    [SerializeField] Animator _anim;
     bool _gameOver = false;
     public bool _GameOver { get { return _gameOver; } set { _gameOver = value; } }
 
 
     void Start() 
     {
-        _playerGun = GetComponentInChildren<PlayerGun>();    
+        _playerGun = GetComponentInChildren<PlayerGun>();
+        _anim = GetComponent<Animator>();
+        _gameOver = true;
     }
 
     public void StartGame()
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Play Angry animation");
+            //Debug.Log("Play Angry animation");
         }
     }
 
@@ -42,6 +44,15 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontal, 0, vertical);
+
+        if(direction.magnitude != 0)
+        {
+            _anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            _anim.SetBool("isWalking", false);
+        }
 
         transform.Translate(direction * _speed * Time.deltaTime, Space.World);
     }
@@ -62,6 +73,18 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButton("Fire1"))
         {
             _playerGun.Shoot();
+        }
+    }
+
+    public void PlayEndGameAnimation(bool winGame)
+    {
+        if(winGame)
+        {
+            _anim.SetBool("win", true);
+        }
+        else
+        {
+            _anim.SetBool("lose", true);
         }
     }
 }

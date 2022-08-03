@@ -36,12 +36,14 @@ public class PigeonWalkAwayState : PigeonBaseState
         if(_imSafe)
         {
             pigeon.StopAllCoroutines();
+            pigeon.SwitchImSafe(true);
             pigeon.SwitchState(pigeon._botherState);
         }
 
         if(_windowNear)
         {
             pigeon.StopAllCoroutines();
+            pigeon.SwitchImSafe(false);
             pigeon.SwitchState(pigeon._runAwayState);
         }
     }
@@ -53,7 +55,7 @@ public class PigeonWalkAwayState : PigeonBaseState
 
     public override void OnTriggerEnter(PigeonStateManager pigeon, Collider other)
     {
-         if(!_windowNear && other.gameObject.CompareTag("Window"))
+        if(!_windowNear && other.gameObject.CompareTag("Window"))
         {
             _windowNear = true;;
             pigeon.SetWindowPosition(other.transform.position);
@@ -61,7 +63,11 @@ public class PigeonWalkAwayState : PigeonBaseState
     }
     public override void OnTriggerStay(PigeonStateManager pigeon, Collider other)
     {
-        
+        if(!_windowNear && other.gameObject.CompareTag("Window"))
+        {
+            _windowNear = true;;
+            pigeon.SetWindowPosition(other.transform.position);
+        }
     }
 
     IEnumerator RunAway()

@@ -54,6 +54,7 @@ public class PigeonBotherState : PigeonBaseState
         if(!_imSafe)
         {
             pigeon.StopAllCoroutines();
+            pigeon.SwitchImSafe(false);
             pigeon.SwitchState(pigeon._walkAwayState);
         }
     }

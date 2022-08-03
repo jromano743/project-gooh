@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,12 @@ public class GUIManager : MonoBehaviour
     [Header("HUD Elements")]
     [SerializeField] Slider _slider;
     [SerializeField] Image _bgSliderFill;
+
+    [Header("Game Over Elements")]
+    [SerializeField] TMP_Text _gameOverText;
+    [SerializeField] TMP_Text _currentScore;
+    [SerializeField] TMP_Text _highScore;
+    [SerializeField] TMP_Text _newHighScore;
 
     [Header("Animation Properties")]
     [SerializeField] float _menuSpeed;
@@ -121,5 +128,22 @@ public class GUIManager : MonoBehaviour
     {
         InMenu();
     }
+
+    public void GameOver(string message, string score, string highScore, bool newHighScore){
+        _gameOverText.text = message;
+
+        if(newHighScore){
+            _newHighScore.text = "NEW HIGH SCORE";
+            _highScore.text = "";
+        }else{
+            _highScore.text = "High Score: " + highScore;
+            _newHighScore.text = "";
+        }
+
+        _currentScore.text = "You score: " + score;
+        
+        InGameOver();
+    }
+
     #endregion
 }

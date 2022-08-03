@@ -33,6 +33,7 @@ public class PigeonRunAwayState : PigeonBaseState
         if(!_imSafe)
         {
             pigeon.StopAllCoroutines();
+            pigeon.SwitchImSafe(true);
             pigeon.SwitchState(pigeon._walkAwayState);
         }
     }
@@ -41,6 +42,7 @@ public class PigeonRunAwayState : PigeonBaseState
     {
         if(collision.gameObject.CompareTag("Window"))
         {
+            pigeon.PlayPigeonRun();
             pigeon.Scape();
         }    
     }

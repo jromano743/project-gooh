@@ -35,7 +35,6 @@ public class Bullet : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Pasa");
             BulletCollected();
         }    
     }

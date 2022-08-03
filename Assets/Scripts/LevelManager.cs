@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {   
+    [SerializeField] int _enemysForLevel;
     [SerializeField] int _enemysInLevel;
-    int _currentPigeons = 0;
+    [SerializeField] int _currentPigeons = 0;
     [SerializeField] int _maxEnemysOnLevel;
     [SerializeField] GameObject[] _spawnPoints;
     [SerializeField] GameObject _enemyPrefab;
     [SerializeField] PlayerController _playerController;
+
+    float _score = 0;
+    float _highScore = 0;
 
     public static LevelManager _sharedInstance;
 
@@ -30,13 +34,22 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     public void StartGame()
     {
+        _enemysInLevel = _enemysForLevel;
+        _currentPigeons = 0;
+
         while(_currentPigeons < _maxEnemysOnLevel)
         {
             AddEnemy();
         }
 
+
         _levelTime = 0;
         _gameOver = false;
+
+        
+        Debug.Log("High Score: " + _highScore);
+        Debug.Log("Score: "+ _score);
+        GUIManager._sharedInstance.InGame();
     }
 
     // Update is called once per frame
@@ -47,19 +60,50 @@ public class LevelManager : MonoBehaviour
 
     public void WinGame()
     {
-        Debug.Log("Ganaste!");
+        EndGame(true);
+        _playerController._GameOver = true;
+        //_playerController.PlayEndGameAnimation(true);
     }
 
-    public void EndGame()
+    public void EndGame(bool winGame)
     {
-        Debug.Log("Fin del juego");
-        Debug.Log("Tiempo: "+ _levelTime.ToString());
+        DeleteEnemies();
+        BulletPool.Instance.CollectAllBullets();
+
+        bool newScore = false;
+        string winText = winGame ? "You win!" : "Game over!";
+        _score = _levelTime;
+
+        Debug.Log("High Score: " + _highScore);
+        Debug.Log("Score: "+ _score);
+
+        if(_score < _highScore || _highScore == 0){
+            _highScore = _score;
+            newScore = true;
+        }
+
+        Debug.Log("High Score: " + _highScore);
+        Debug.Log("Score: "+ _score);
+
+        string _stringScore = FormatTime(_score);
+        string _stringHighScore = FormatTime(_highScore);
+        GUIManager._sharedInstance.GameOver(winText, _stringScore, _stringHighScore, newScore);
+
+        if(winGame)
+        {
+            AudioManager._sharedInstance.PlayWinSound();
+        }
+        else
+        {
+            AudioManager._sharedInstance.PlayWinSound();
+        }
+
         _playerController._GameOver = true;
     }
 
     void AddEnemy()
     {
-        if(_enemysInLevel > 0 && _currentPigeons < _maxEnemysOnLevel)
+        if(_enemysInLevel != 0 && _currentPigeons < _maxEnemysOnLevel)
         {
             SpawnEnemy();
         }
@@ -73,6 +117,16 @@ public class LevelManager : MonoBehaviour
         _currentPigeons++;
     }
 
+    void DeleteEnemies()
+    {
+        GameObject[] aux = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var item in aux)
+        {
+            Destroy(item);
+        }
+    }
+
     public void EnemyScape()
     {
         _currentPigeons--;
@@ -81,6 +135,14 @@ public class LevelManager : MonoBehaviour
         {
             WinGame();
         }
+    }
+
+    public string FormatTime(float time)
+    {
+        int minutes = (int) time / 60000 ;
+        int seconds = (int) time / 1000 - 60 * minutes;
+        int milliseconds = (int) time - minutes * 60000 - 1000 * seconds;
+        return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds );
     }
 
 }

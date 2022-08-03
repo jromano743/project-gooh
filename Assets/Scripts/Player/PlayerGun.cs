@@ -6,7 +6,7 @@ public class PlayerGun : MonoBehaviour
 {
     [Header("Gun Settings")]
     [SerializeField] Transform _firePoint;
-    [SerializeField] GameObject _projectilePrefab;
+    [SerializeField] AudioClip _shotSound;
     [SerializeField] float _firingSpeed;
     float _lastTimeShoot = 0;
 
@@ -38,9 +38,10 @@ public class PlayerGun : MonoBehaviour
             _lastTimeShoot = Time.time;
             GameObject bullet = BulletPool.Instance.RequestBullet();
             
-            if(bullet)
+            if(bullet != null)
             {
-                bullet.GetComponent<Bullet>().MoveBullet(_firePoint.transform);
+                bullet.GetComponent<Bullet>().MoveBullet(_firePoint);
+                AudioManager._sharedInstance.PlaySound(_shotSound);
                 _currentBullet--;
             }
             else

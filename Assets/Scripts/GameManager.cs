@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _sharedInstance;
     public PlayerController _player;
+    [SerializeField] PlayerGame _playerGame;
     private void Awake() 
     {
         if (_sharedInstance != null && _sharedInstance != this) 
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        LevelManager._sharedInstance.StartGame();
+        ResetGame();
     }
 
     public void QuitGame()
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         _player.StartGame();
+        _playerGame.StartGame();
         LevelManager._sharedInstance.StartGame();
     }
 
